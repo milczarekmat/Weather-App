@@ -51,4 +51,6 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.9.0")
     implementation("androidx.fragment:fragment-ktx:1.7.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+    implementation ("com.google.code.gson:gson:2.8.8")
+    implementation("com.squareup.okhttp3:okhttp:4.9.3")
 }

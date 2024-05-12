@@ -31,5 +31,7 @@ class MainActivity : AppCompatActivity() {
         val viewPager = findViewById<ViewPager2>(R.id.mainVP)
 
         viewPager.adapter = adapter
+
+        viewModel.getCurrentWeather()
     }
 }

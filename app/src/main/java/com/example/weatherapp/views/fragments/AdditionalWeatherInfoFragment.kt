@@ -9,7 +9,7 @@ import androidx.activity.viewModels
 import com.example.weatherapp.R
 import com.example.weatherapp.viewmodels.MainViewModel
 
-class CurrentWeatherFragment : Fragment() {
+class AdditionalWeatherInfoFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,6 +25,6 @@ class CurrentWeatherFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_current_weather, container, false)
+        return inflater.inflate(R.layout.fragment_additional_weather_info, container, false)
     }
 }

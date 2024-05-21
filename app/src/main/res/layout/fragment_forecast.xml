@@ -3,13 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.fragments.AdditionalWeatherInfoFragment"
-    android:background="@drawable/gradient_background_mirror">
+    tools:context=".views.fragments.ForecastFragment"
+    android:background="@drawable/gradient_background"
+    >
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Additional info fragment" />
+        android:text="Forecast" />
 
 </FrameLayout>

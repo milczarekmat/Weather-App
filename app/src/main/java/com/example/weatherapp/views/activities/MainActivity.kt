@@ -32,6 +32,6 @@ class MainActivity : AppCompatActivity() {
 
         viewPager.adapter = adapter
 
-        viewModel.getCurrentWeather("Warszawa")
+        viewModel.getCurrentWeather("Tokyo")
     }
 }

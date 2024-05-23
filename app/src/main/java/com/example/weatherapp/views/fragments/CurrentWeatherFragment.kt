@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import com.example.weatherapp.R
 import com.example.weatherapp.models.currentWeather.CurrentWeatherModel
 import com.example.weatherapp.viewmodels.MainViewModel
+import kotlin.math.round
 
 class CurrentWeatherFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
@@ -67,11 +68,17 @@ class CurrentWeatherFragment : Fragment() {
     private fun updateWeatherView(weather: CurrentWeatherModel) {
         view?.findViewById<TextView>(R.id.titleTV)?.text = weather.name
         view?.findViewById<TextView>(R.id.subtitleTV)?.text = weather.weather[0].description
-
+        view?.findViewById<TextView>(R.id.temperatureTV)?.text = weather.main.temp.toInt().toString() + "°C"
         val iconName = weather.weather[0].icon
         val iconResId = iconMap[iconName]
         if (iconResId != null)
             view?.findViewById<ImageView>(R.id.currentWeatherIV)?.setImageResource(iconResId)
 
+
+        view?.findViewById<TextView>(R.id.cloudPerValueTV)?.text = weather.clouds.all.toString() + "%"
+        view?.findViewById<TextView>(R.id.humidityValueTV)?.text = weather.main.humidity.toString() + "%"
+        view?.findViewById<TextView>(R.id.visibilityValueTV)?.text = weather.visibility.toString() + "m"
+
+        view?.findViewById<TextView>(R.id.pressureValueTV)?.text = weather.main.pressure.toString() + "hPa"
     }
 }

@@ -14,7 +14,7 @@ class WeatherRepository {
 
     fun getCurrentWeather(city: String, callback: (CurrentWeatherModel?) -> Unit) {
         val request = Request.Builder()
-            .url("https://api.openweathermap.org/data/2.5/weather?q=$city&appid=${BuildConfig.API_KEY}&lang=pl")
+            .url("https://api.openweathermap.org/data/2.5/weather?q=$city&appid=${BuildConfig.API_KEY}&lang=pl&units=metric")
             .build()
 
         client.newCall(request).enqueue(object : okhttp3.Callback {

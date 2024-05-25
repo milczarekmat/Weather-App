@@ -75,10 +75,13 @@ class CurrentWeatherFragment : Fragment() {
             view?.findViewById<ImageView>(R.id.currentWeatherIV)?.setImageResource(iconResId)
 
 
-        view?.findViewById<TextView>(R.id.cloudPerValueTV)?.text = weather.clouds.all.toString() + "%"
-        view?.findViewById<TextView>(R.id.humidityValueTV)?.text = weather.main.humidity.toString() + "%"
-        view?.findViewById<TextView>(R.id.visibilityValueTV)?.text = weather.visibility.toString() + "m"
+//        view?.findViewById<TextView>(R.id.cloudPerValueTV)?.text = weather.clouds.all.toString() + "%"
+//        view?.findViewById<TextView>(R.id.humidityValueTV)?.text = weather.main.humidity.toString() + "%"
+//        view?.findViewById<TextView>(R.id.visibilityValueTV)?.text = weather.visibility.toString() + "m"
 
         view?.findViewById<TextView>(R.id.pressureValueTV)?.text = weather.main.pressure.toString() + "hPa"
+        view?.findViewById<TextView>(R.id.perceptibleTemperatureValueTV)?.text = weather.main.feels_like.toString() + "°C"
+        view?.findViewById<TextView>(R.id.coordinatesValueLatTV)?.text = weather.coord.lat.toString()
+        view?.findViewById<TextView>(R.id.coordinatesValueLonTV)?.text = weather.coord.lon.toString()
     }
 }

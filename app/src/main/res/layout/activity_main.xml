@@ -49,11 +49,12 @@
             android:layout_weight="0.2" />
 
         <Spinner
-            android:id="@+id/spinner"
+            android:id="@+id/metricSpinner"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="1dp"
             android:layout_weight="1"
+            android:popupBackground="#000"
             app:layout_constraintStart_toEndOf="@+id/button"
             app:layout_constraintTop_toTopOf="parent" />
 

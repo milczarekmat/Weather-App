@@ -2,18 +2,17 @@ package com.example.weatherapp.views.fragments
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.example.weatherapp.R
 import com.example.weatherapp.models.currentWeather.CurrentWeatherModel
 import com.example.weatherapp.viewmodels.MainViewModel
-import kotlin.math.round
 
 class CurrentWeatherFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
@@ -68,20 +67,21 @@ class CurrentWeatherFragment : Fragment() {
     private fun updateWeatherView(weather: CurrentWeatherModel) {
         view?.findViewById<TextView>(R.id.titleTV)?.text = weather.name
         view?.findViewById<TextView>(R.id.subtitleTV)?.text = weather.weather[0].description
-        view?.findViewById<TextView>(R.id.temperatureTV)?.text = weather.main.temp.toInt().toString() + "°C"
+        view?.findViewById<TextView>(R.id.temperatureTV)?.text =
+            weather.main.temp.toInt().toString() + "°C"
         val iconName = weather.weather[0].icon
         val iconResId = iconMap[iconName]
         if (iconResId != null)
             view?.findViewById<ImageView>(R.id.currentWeatherIV)?.setImageResource(iconResId)
 
 
-//        view?.findViewById<TextView>(R.id.cloudPerValueTV)?.text = weather.clouds.all.toString() + "%"
-//        view?.findViewById<TextView>(R.id.humidityValueTV)?.text = weather.main.humidity.toString() + "%"
-//        view?.findViewById<TextView>(R.id.visibilityValueTV)?.text = weather.visibility.toString() + "m"
-
-        view?.findViewById<TextView>(R.id.pressureValueTV)?.text = weather.main.pressure.toString() + "hPa"
-        view?.findViewById<TextView>(R.id.perceptibleTemperatureValueTV)?.text = weather.main.feels_like.toString() + "°C"
-        view?.findViewById<TextView>(R.id.coordinatesValueLatTV)?.text = weather.coord.lat.toString()
-        view?.findViewById<TextView>(R.id.coordinatesValueLonTV)?.text = weather.coord.lon.toString()
+        view?.findViewById<TextView>(R.id.pressureValueTV)?.text =
+            weather.main.pressure.toString() + "hPa"
+        view?.findViewById<TextView>(R.id.perceptibleTemperatureValueTV)?.text =
+            weather.main.feels_like.toInt().toString() + "°C"
+        view?.findViewById<TextView>(R.id.coordinatesValueLatTV)?.text =
+            weather.coord.lat.toString()
+        view?.findViewById<TextView>(R.id.coordinatesValueLonTV)?.text =
+            weather.coord.lon.toString()
     }
 }

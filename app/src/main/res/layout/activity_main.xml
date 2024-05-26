@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/primary_background"
+    android:padding="10dp"
     tools:context=".views.activities.MainActivity">
 
     <LinearLayout
@@ -78,7 +79,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.92" />
+        app:layout_constraintGuide_percent="0.89" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/mainVP"

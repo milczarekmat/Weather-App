@@ -37,7 +37,9 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
         viewPager.adapter = adapter
 
-        viewModel.getCurrentWeather("Londyn")
+        viewModel.getCurrentWeather("Zgierz")
+
+        viewModel.getForecast("Zgierz")
 
         setSpinner()
     }

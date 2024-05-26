@@ -10,11 +10,9 @@ import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.example.weatherapp.R
+import com.example.weatherapp.common.DateConverter.Companion.convertUnixToTime
 import com.example.weatherapp.models.currentWeather.CurrentWeatherModel
 import com.example.weatherapp.viewmodels.MainViewModel
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.TimeZone
 
 class AdditionalWeatherInfoFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
@@ -60,10 +58,5 @@ class AdditionalWeatherInfoFragment : Fragment() {
         view?.findViewById<TextView>(R.id.minTempValueTV)?.text = payload.main.temp_min.toInt().toString() + "°C"
     }
 
-    private fun convertUnixToTime(unix: Int): String {
-        val date = Date(unix * 1000L)
-        val sdf = SimpleDateFormat("HH:mm")
-        sdf.timeZone = TimeZone.getDefault()
-        return sdf.format(date)
-    }
+
 }

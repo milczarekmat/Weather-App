@@ -62,7 +62,7 @@
                 android:src="@drawable/i01d" />
 
             <TextView
-                android:id="@+id/todayDTv1"
+                android:id="@+id/todayDTv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.13"
@@ -120,7 +120,7 @@
                 android:src="@drawable/i01d" />
 
             <TextView
-                android:id="@+id/firstDayDTv1"
+                android:id="@+id/firstDayDTv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.13"
@@ -178,7 +178,7 @@
                 android:src="@drawable/i01d" />
 
             <TextView
-                android:id="@+id/secondDayDTv1"
+                android:id="@+id/secondDayDTv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.13"
@@ -236,7 +236,7 @@
                 android:src="@drawable/i01d" />
 
             <TextView
-                android:id="@+id/thirdDayDTv1"
+                android:id="@+id/thirdDayDTv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.13"
@@ -294,7 +294,7 @@
                 android:src="@drawable/i01d" />
 
             <TextView
-                android:id="@+id/fourthDayDTv1"
+                android:id="@+id/fourthDayDTv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.13"

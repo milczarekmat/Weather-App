@@ -1,9 +1,11 @@
 package com.example.weatherapp.views.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -42,6 +44,18 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         viewModel.getForecast("Zgierz")
 
         setSpinner()
+        setUpListeners()
+    }
+
+    private fun setUpListeners() {
+//        val spinner = findViewById<Spinner>(R.id.metricSpinner)
+//        spinner.onItemSelectedListener = this
+
+        val locationSettingsBtn = findViewById<Button>(R.id.locationSettingsBtn)
+
+        locationSettingsBtn.setOnClickListener {
+            startActivity(Intent(this, LocationSettingsActivity::class.java))
+        }
     }
 
     private fun setSpinner() {

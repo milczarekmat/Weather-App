@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline2">
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/locationSettingsBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

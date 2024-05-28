@@ -15,6 +15,9 @@
         android:theme="@style/Theme.WeatherApp"
         tools:targetApi="31">
         <activity
+            android:name=".views.activities.LocationSettingsActivity"
+            android:exported="false" />
+        <activity
             android:name=".views.activities.MainActivity"
             android:exported="true">
             <intent-filter>

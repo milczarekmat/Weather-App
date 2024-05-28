@@ -34,15 +34,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.2" />
 
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Odśwież"
-            app:layout_constraintStart_toEndOf="@+id/spinner"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <Space
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -98,5 +89,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline5" />
+
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Odśwież"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline5"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:textColor="@color/white"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

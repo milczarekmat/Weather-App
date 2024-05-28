@@ -15,6 +15,7 @@ import com.example.weatherapp.common.DateConverter.Companion.getDayOfWeek
 import com.example.weatherapp.common.IconMap
 import com.example.weatherapp.models.forecast.ForecastModel
 import com.example.weatherapp.viewmodels.MainViewModel
+import java.util.Calendar
 
 class ForecastFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
@@ -84,10 +85,14 @@ class ForecastFragment : Fragment() {
     )
 
     private fun updateForecast(weather: ForecastModel) {
+        val currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
 
         val filteredForecast = weather.list.filter { listElement ->
-            val hour = listElement.dt_txt.split(" ")[1].split(":")[0]
-            hour == "18" || hour == "00"
+            val hour = listElement.dt_txt.split(" ")[1].split(":")[0].toInt()
+            when {
+                currentHour < 9 -> hour == 9 || hour == 0
+                else -> hour == currentHour + (3 - currentHour % 3) || hour == 0
+            }
         }
 
         val mappedForecast = filteredForecast.indices.filter { it % 2 == 0 }.map { index ->

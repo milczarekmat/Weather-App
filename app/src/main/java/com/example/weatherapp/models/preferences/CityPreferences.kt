@@ -1,3 +1,5 @@
+package com.example.weatherapp.models.preferences
+
 import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
@@ -10,7 +12,7 @@ class CityPreferences(context: Context) {
     private val prefs: SharedPreferences = context.getSharedPreferences(PREFS_NAME, 0)
 
     var selectedCity: Int
-        get() = prefs.getInt(SELECTED_CITY, -1)
+        get() = prefs.getInt(SELECTED_CITY, 0)
         set(value) = prefs.edit().putInt(SELECTED_CITY, value).apply()
 
     var cityList: MutableList<String>

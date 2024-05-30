@@ -5,10 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.weatherapp.models.currentWeather.CurrentWeatherModel
 import com.example.weatherapp.models.forecast.ForecastModel
+import com.example.weatherapp.models.preferences.CityPreferences
 import com.example.weatherapp.repositories.ForecastRepository
 import com.example.weatherapp.repositories.WeatherRepository
 
-class MainViewModel : ViewModel() {
+class MainViewModel(private val cityPreferences: CityPreferences) : ViewModel() {
     private val currentWeatherRepository = WeatherRepository()
     private val forecastRepository = ForecastRepository()
 
@@ -18,13 +19,15 @@ class MainViewModel : ViewModel() {
     val currentWeather: LiveData<CurrentWeatherModel?> get() = _currentWeather
     val forecast: LiveData<ForecastModel?> get() = _forecast
 
-    fun getCurrentWeather(currentCity: String) {
-        currentWeatherRepository.getCurrentWeather(currentCity) { weather ->
+    fun getCurrentWeatherAndPostValue() {
+        val currentCity = cityPreferences.cityList[cityPreferences.selectedCity]
+        currentWeatherRepository.fetchCurrentWeather(currentCity) { weather ->
             _currentWeather.postValue(weather)
         }
     }
 
-    fun getForecast(currentCity: String) {
+    fun getForecastAndPostValue() {
+        val currentCity = cityPreferences.cityList[cityPreferences.selectedCity]
         forecastRepository.getCurrentForecast(currentCity) { forecast ->
             _forecast.postValue(forecast)
         }

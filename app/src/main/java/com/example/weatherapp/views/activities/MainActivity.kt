@@ -10,17 +10,19 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.example.weatherapp.R
-import com.example.weatherapp.viewmodels.MainViewModel
-import androidx.activity.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
+import com.example.weatherapp.R
+import com.example.weatherapp.models.preferences.CityPreferences
+import com.example.weatherapp.viewmodels.MainViewModel
+import com.example.weatherapp.viewmodels.factories.MainViewModelFactory
 import com.example.weatherapp.views.adapters.ViewPagerAdapter
 import com.example.weatherapp.views.fragments.AdditionalWeatherInfoFragment
 import com.example.weatherapp.views.fragments.CurrentWeatherFragment
 import com.example.weatherapp.views.fragments.ForecastFragment
 
 class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
-    private val viewModel: MainViewModel by viewModels()
+    private lateinit var viewModel: MainViewModel
     private val metrics = arrayOf<String?>("Metric", "Imperial", "Standard")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,14 +36,14 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         )
 
         val adapter = ViewPagerAdapter(fragmentList, supportFragmentManager, lifecycle)
-
         val viewPager = findViewById<ViewPager2>(R.id.mainVP)
-
         viewPager.adapter = adapter
 
-        viewModel.getCurrentWeather("Zgierz")
+        val cityPreferences = CityPreferences(this)
+        viewModel = ViewModelProvider(this, MainViewModelFactory(cityPreferences)).get(MainViewModel::class.java)
 
-        viewModel.getForecast("Zgierz")
+        viewModel.getCurrentWeatherAndPostValue()
+        viewModel.getForecastAndPostValue()
 
         setSpinner()
         setUpListeners()

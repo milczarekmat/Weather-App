@@ -64,4 +64,9 @@ class CurrentWeatherFragment : Fragment() {
         view?.findViewById<TextView>(R.id.coordinatesValueLonTV)?.text =
             weather.coord.lon.toString()
     }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getCurrentWeatherAndPostValue()
+    }
 }

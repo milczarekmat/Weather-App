@@ -44,19 +44,30 @@ class AdditionalWeatherInfoFragment : Fragment() {
     }
 
     private fun updateAdditionalInfoView(payload: CurrentWeatherModel) {
-        view?.findViewById<TextView>(R.id.sunriseValueTV)?.text = convertUnixToTime(payload.sys.sunrise + payload.timezone)
-        view?.findViewById<TextView>(R.id.sunsetValueTV)?.text = convertUnixToTime(payload.sys.sunset + payload.timezone)
+        view?.findViewById<TextView>(R.id.sunriseValueTV)?.text =
+            convertUnixToTime(payload.sys.sunrise)
+        view?.findViewById<TextView>(R.id.sunsetValueTV)?.text =
+            convertUnixToTime(payload.sys.sunset )
+//        + payload.timezone
 
-        view?.findViewById<TextView>(R.id.visibilityValueTV)?.text = payload.visibility.toString() + "m"
+        view?.findViewById<TextView>(R.id.visibilityValueTV)?.text =
+            payload.visibility.toString() + "m"
         view?.findViewById<TextView>(R.id.windPowerValueTV)?.text =
             payload.wind.speed.toString() + "m/s"
 
-        view?.findViewById<TextView>(R.id.cloudPerValueTV)?.text = payload.clouds.all.toString() + "%"
-        view?.findViewById<TextView>(R.id.maxTempValueTV)?.text = payload.main.temp_max.toInt().toString() + "°C"
+        view?.findViewById<TextView>(R.id.cloudPerValueTV)?.text =
+            payload.clouds.all.toString() + "%"
+        view?.findViewById<TextView>(R.id.maxTempValueTV)?.text =
+            payload.main.temp_max.toInt().toString() + "°C"
 
-        view?.findViewById<TextView>(R.id.humidityValueTV)?.text = payload.main.humidity.toString() + "%"
-        view?.findViewById<TextView>(R.id.minTempValueTV)?.text = payload.main.temp_min.toInt().toString() + "°C"
+        view?.findViewById<TextView>(R.id.humidityValueTV)?.text =
+            payload.main.humidity.toString() + "%"
+        view?.findViewById<TextView>(R.id.minTempValueTV)?.text =
+            payload.main.temp_min.toInt().toString() + "°C"
     }
 
-
+    override fun onResume() {
+        super.onResume()
+        viewModel.getCurrentWeatherAndPostValue()
+    }
 }

@@ -121,4 +121,9 @@ class ForecastFragment : Fragment() {
             view?.findViewById<TextView>(allForecastElementsIds[i][4])?.text = mappedForecast[i].second?.main?.temp?.toInt().toString() + "°C"
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getForecastAndPostValue()
+    }
 }

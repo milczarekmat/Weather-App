@@ -12,7 +12,7 @@ class WeatherRepository {
     private val client = OkHttpClient()
     private val gson = Gson()
 
-    fun getCurrentWeather(city: String, callback: (CurrentWeatherModel?) -> Unit) {
+    fun fetchCurrentWeather(city: String, callback: (CurrentWeatherModel?) -> Unit) {
         val request = Request.Builder()
             .url("https://api.openweathermap.org/data/2.5/weather?q=$city&appid=${BuildConfig.API_KEY}&lang=pl&units=metric")
             .build()

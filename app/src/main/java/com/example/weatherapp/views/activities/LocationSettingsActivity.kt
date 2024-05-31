@@ -1,5 +1,6 @@
 package com.example.weatherapp.views.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -70,6 +71,11 @@ class LocationSettingsActivity : AppCompatActivity() {
         cityPreferences.cityList = cities
         adapter.notifyDataSetChanged()
         Toast.makeText(this, "Dodano miasto do listy", Toast.LENGTH_SHORT).show()
+
+        if (cityPreferences.cityList.size == 1) {
+            val intent = Intent(this@LocationSettingsActivity, MainActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun setUpListeners() {
@@ -78,7 +84,11 @@ class LocationSettingsActivity : AppCompatActivity() {
         val locationInput = findViewById<EditText>(R.id.location_input)
 
         backBtn.setOnClickListener {
-            finish()
+            if (cityPreferences.cityList.isEmpty()) {
+                Toast.makeText(this, "Musisz dodać przynajmniej jedno miasto", Toast.LENGTH_SHORT).show()
+            } else {
+                finish()
+            }
         }
 
         searchBtn.setOnClickListener {

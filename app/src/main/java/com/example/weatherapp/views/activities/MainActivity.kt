@@ -25,7 +25,9 @@ import com.example.weatherapp.views.fragments.ForecastFragment
 class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var viewModel: MainViewModel
     private lateinit var metricPreferences: MetricPreferences
-    private val metrics = arrayOf<String?>("Metryczna", "Imperialna", "Kelwiny dla temp. i m/s dla wiatru")
+    private val metrics =
+        arrayOf<String?>("Metryczna", "Imperialna", "Kelwiny dla temp. i m/s dla wiatru")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -42,13 +44,25 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         viewPager.adapter = adapter
 
         val cityPreferences = CityPreferences(this)
+
+        if (cityPreferences.cityList.isEmpty()) {
+            startActivity(Intent(this, LocationSettingsActivity::class.java))
+            finish()
+            return
+        }
+
         val metricsPreferences = MetricPreferences(this)
-        viewModel = ViewModelProvider(this, MainViewModelFactory(cityPreferences, metricsPreferences)).get(MainViewModel::class.java)
+        viewModel =
+            ViewModelProvider(this, MainViewModelFactory(cityPreferences, metricsPreferences)).get(
+                MainViewModel::class.java
+            )
 
         metricPreferences = MetricPreferences(this)
 
-        viewModel.getCurrentWeatherAndPostValue()
-        viewModel.getForecastAndPostValue()
+        if (cityPreferences.cityList.isNotEmpty()) {
+            viewModel.getCurrentWeatherAndPostValue()
+            viewModel.getForecastAndPostValue()
+        }
 
         setSpinner()
         setUpListeners()

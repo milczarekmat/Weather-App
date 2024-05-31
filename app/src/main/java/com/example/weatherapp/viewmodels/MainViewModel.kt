@@ -6,12 +6,13 @@ import androidx.lifecycle.ViewModel
 import com.example.weatherapp.models.currentWeather.CurrentWeatherModel
 import com.example.weatherapp.models.forecast.ForecastModel
 import com.example.weatherapp.models.preferences.CityPreferences
+import com.example.weatherapp.models.preferences.MetricPreferences
 import com.example.weatherapp.repositories.ForecastRepository
 import com.example.weatherapp.repositories.WeatherRepository
 
-class MainViewModel(private val cityPreferences: CityPreferences) : ViewModel() {
-    private val currentWeatherRepository = WeatherRepository()
-    private val forecastRepository = ForecastRepository()
+class MainViewModel(private val cityPreferences: CityPreferences, metricPreferences: MetricPreferences) : ViewModel() {
+    private val currentWeatherRepository = WeatherRepository(metricPreferences)
+    private val forecastRepository = ForecastRepository(metricPreferences)
 
     private val _currentWeather = MutableLiveData<CurrentWeatherModel?>()
     private val _forecast = MutableLiveData<ForecastModel?>()

@@ -2,19 +2,23 @@ package com.example.weatherapp.repositories
 
 import android.util.Log
 import com.example.weatherapp.BuildConfig
+import com.example.weatherapp.common.MetricsNames
 import com.example.weatherapp.models.forecast.ForecastModel
+import com.example.weatherapp.models.preferences.MetricPreferences
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.IOException
 
-class ForecastRepository {
+class ForecastRepository(private val metricPreferences: MetricPreferences) {
     private val client = OkHttpClient()
     private val gson = Gson()
 
     fun getCurrentForecast(city: String, callback: (ForecastModel?) -> Unit) {
+        val units = MetricsNames.getMetricValue(metricPreferences.selectedMetric)
+
         val request = Request.Builder()
-            .url("https://api.openweathermap.org/data/2.5/forecast?q=$city&appid=${BuildConfig.API_KEY}&lang=pl&units=metric")
+            .url("https://api.openweathermap.org/data/2.5/forecast?q=$city&appid=${BuildConfig.API_KEY}&lang=pl&units=$units")
             .build()
 
         client.newCall(request).enqueue(object : okhttp3.Callback {
@@ -31,7 +35,10 @@ class ForecastRepository {
                         callback(weather)
                     }
                 } else {
-                    Log.i("ForecastRepository", "getCurrentForecast onResponse: ${response.message}")
+                    Log.i(
+                        "ForecastRepository",
+                        "getCurrentForecast onResponse: ${response.message}"
+                    )
                     callback(null)
                 }
             }

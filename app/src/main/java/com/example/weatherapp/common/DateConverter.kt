@@ -5,8 +5,7 @@ import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
 
-class DateConverter {
-    companion object {
+object DateConverter {
         fun convertUnixToTime(unix: Int): String {
             val date = Date(unix * 1000L)
             val sdf = SimpleDateFormat("HH:mm")
@@ -28,6 +27,4 @@ class DateConverter {
             sdf.timeZone = TimeZone.getDefault()
             return sdf.format(date)
         }
-    }
-
 }

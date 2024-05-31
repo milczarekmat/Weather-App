@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.weatherapp.R
 import com.example.weatherapp.models.preferences.CityPreferences
+import com.example.weatherapp.models.preferences.MetricPreferences
 import com.example.weatherapp.viewmodels.MainViewModel
 import com.example.weatherapp.viewmodels.factories.MainViewModelFactory
 import com.example.weatherapp.views.adapters.ViewPagerAdapter
@@ -23,7 +24,8 @@ import com.example.weatherapp.views.fragments.ForecastFragment
 
 class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var viewModel: MainViewModel
-    private val metrics = arrayOf<String?>("Metric", "Imperial", "Standard")
+    private lateinit var metricPreferences: MetricPreferences
+    private val metrics = arrayOf<String?>("Metryczna", "Imperialna", "Kelwiny dla temp. i m/s dla wiatru")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -40,7 +42,10 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         viewPager.adapter = adapter
 
         val cityPreferences = CityPreferences(this)
-        viewModel = ViewModelProvider(this, MainViewModelFactory(cityPreferences)).get(MainViewModel::class.java)
+        val metricsPreferences = MetricPreferences(this)
+        viewModel = ViewModelProvider(this, MainViewModelFactory(cityPreferences, metricsPreferences)).get(MainViewModel::class.java)
+
+        metricPreferences = MetricPreferences(this)
 
         viewModel.getCurrentWeatherAndPostValue()
         viewModel.getForecastAndPostValue()
@@ -65,18 +70,20 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, metrics)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
+        val selectedMetric = metricPreferences.selectedMetric
+        val selectedIndex = metrics.indexOf(selectedMetric)
+        spinner.setSelection(selectedIndex)
         spinner.onItemSelectedListener = this
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        Toast.makeText(
-            applicationContext,
-            metrics[position],
-            Toast.LENGTH_LONG
-        ).show()
+        val selectedMetric = metrics[position]
+        metricPreferences.selectedMetric = selectedMetric
+        viewModel.getCurrentWeatherAndPostValue()
+        viewModel.getForecastAndPostValue()
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
-        TODO("Not yet implemented")
+        Toast.makeText(this, "Nie wybrano żadnej opcji", Toast.LENGTH_SHORT).show()
     }
 }

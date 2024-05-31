@@ -10,15 +10,20 @@ import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.example.weatherapp.R
-import com.example.weatherapp.common.DateConverter.Companion.convertUnixToTime
+import com.example.weatherapp.common.DateConverter.convertUnixToTime
+import com.example.weatherapp.common.Units
+import com.example.weatherapp.common.MetricsNames
 import com.example.weatherapp.models.currentWeather.CurrentWeatherModel
+import com.example.weatherapp.models.preferences.MetricPreferences
 import com.example.weatherapp.viewmodels.MainViewModel
 
 class AdditionalWeatherInfoFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
+    private lateinit var metricPreferences: MetricPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        metricPreferences = MetricPreferences(requireContext())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,6 +49,9 @@ class AdditionalWeatherInfoFragment : Fragment() {
     }
 
     private fun updateAdditionalInfoView(payload: CurrentWeatherModel) {
+        val temperatureUnit = Units.getTemperatureUnit(MetricsNames.getMetricValue(metricPreferences.selectedMetric))
+        val windUnit = Units.getWindSpeedUnit(MetricsNames.getMetricValue(metricPreferences.selectedMetric))
+
         view?.findViewById<TextView>(R.id.sunriseValueTV)?.text =
             convertUnixToTime(payload.sys.sunrise)
         view?.findViewById<TextView>(R.id.sunsetValueTV)?.text =
@@ -53,17 +61,17 @@ class AdditionalWeatherInfoFragment : Fragment() {
         view?.findViewById<TextView>(R.id.visibilityValueTV)?.text =
             payload.visibility.toString() + "m"
         view?.findViewById<TextView>(R.id.windPowerValueTV)?.text =
-            payload.wind.speed.toString() + "m/s"
+            payload.wind.speed.toString() + windUnit
 
         view?.findViewById<TextView>(R.id.cloudPerValueTV)?.text =
             payload.clouds.all.toString() + "%"
         view?.findViewById<TextView>(R.id.maxTempValueTV)?.text =
-            payload.main.temp_max.toInt().toString() + "°C"
+            payload.main.temp_max.toInt().toString() + temperatureUnit
 
         view?.findViewById<TextView>(R.id.humidityValueTV)?.text =
             payload.main.humidity.toString() + "%"
         view?.findViewById<TextView>(R.id.minTempValueTV)?.text =
-            payload.main.temp_min.toInt().toString() + "°C"
+            payload.main.temp_min.toInt().toString() + temperatureUnit
     }
 
     override fun onResume() {

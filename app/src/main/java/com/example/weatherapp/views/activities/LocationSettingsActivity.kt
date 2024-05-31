@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.weatherapp.R
 import com.example.weatherapp.models.preferences.CityPreferences
+import com.example.weatherapp.models.preferences.MetricPreferences
 import com.example.weatherapp.repositories.WeatherRepository
 import com.example.weatherapp.viewmodels.MainViewModel
 import com.example.weatherapp.viewmodels.factories.MainViewModelFactory
@@ -19,7 +20,7 @@ import kotlinx.coroutines.launch
 
 class LocationSettingsActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
-    private val weatherRepository = WeatherRepository()
+    private lateinit var weatherRepository: WeatherRepository
     private lateinit var cityPreferences: CityPreferences
     private lateinit var cities: MutableList<String>
     private lateinit var adapter: CityAdapter
@@ -32,9 +33,12 @@ class LocationSettingsActivity : AppCompatActivity() {
         cityPreferences = CityPreferences(this)
         cities = cityPreferences.cityList.toMutableList()
 
+        val metricsPreferences = MetricPreferences(this)
+        weatherRepository = WeatherRepository(metricsPreferences)
+
         viewModel = ViewModelProvider(
             this,
-            MainViewModelFactory(cityPreferences)
+            MainViewModelFactory(cityPreferences, metricsPreferences)
         ).get(MainViewModel::class.java)
         adapter = CityAdapter(this, cities)
 

@@ -11,17 +11,22 @@ import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.example.weatherapp.R
-import com.example.weatherapp.common.DateConverter.Companion.getDayOfWeek
+import com.example.weatherapp.common.DateConverter
 import com.example.weatherapp.common.IconMap
+import com.example.weatherapp.common.Units
+import com.example.weatherapp.common.MetricsNames
 import com.example.weatherapp.models.forecast.ForecastModel
+import com.example.weatherapp.models.preferences.MetricPreferences
 import com.example.weatherapp.viewmodels.MainViewModel
 import java.util.Calendar
 
 class ForecastFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
+    private lateinit var metricPreferences: MetricPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        metricPreferences = MetricPreferences(requireContext())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -85,6 +90,8 @@ class ForecastFragment : Fragment() {
     )
 
     private fun updateForecast(weather: ForecastModel) {
+        val temperatureUnit =
+            Units.getTemperatureUnit(MetricsNames.getMetricValue(metricPreferences.selectedMetric))
         val currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
 
         val filteredForecast = weather.list.filter { listElement ->
@@ -104,21 +111,26 @@ class ForecastFragment : Fragment() {
             if (i == 0) {
                 view?.findViewById<TextView>(allForecastElementsIds[i][0])?.text = "Dzisiaj"
             } else {
-                view?.findViewById<TextView>(allForecastElementsIds[i][0])?.text = getDayOfWeek(mappedForecast[i].first.dt)
+                view?.findViewById<TextView>(allForecastElementsIds[i][0])?.text =
+                    DateConverter.getDayOfWeek(mappedForecast[i].first.dt)
             }
 
             val dayIconName = mappedForecast[i].first.weather[0].icon
             val dayIconResId = IconMap.map[dayIconName]
             if (dayIconResId != null)
-                view?.findViewById<ImageView>(allForecastElementsIds[i][1])?.setImageResource(dayIconResId)
+                view?.findViewById<ImageView>(allForecastElementsIds[i][1])
+                    ?.setImageResource(dayIconResId)
 
             val nightIconName = mappedForecast[i].second?.weather?.get(0)?.icon
             val nightIconResId = IconMap.map[nightIconName]
             if (nightIconResId != null)
-                view?.findViewById<ImageView>(allForecastElementsIds[i][2])?.setImageResource(nightIconResId)
+                view?.findViewById<ImageView>(allForecastElementsIds[i][2])
+                    ?.setImageResource(nightIconResId)
 
-            view?.findViewById<TextView>(allForecastElementsIds[i][3])?.text = mappedForecast[i].first.main.temp.toInt().toString() + "°C"
-            view?.findViewById<TextView>(allForecastElementsIds[i][4])?.text = mappedForecast[i].second?.main?.temp?.toInt().toString() + "°C"
+            view?.findViewById<TextView>(allForecastElementsIds[i][3])?.text =
+                mappedForecast[i].first.main.temp.toInt().toString() + temperatureUnit
+            view?.findViewById<TextView>(allForecastElementsIds[i][4])?.text =
+                mappedForecast[i].second?.main?.temp?.toInt().toString() + temperatureUnit
         }
     }
 

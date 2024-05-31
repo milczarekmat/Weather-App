@@ -7,6 +7,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -15,7 +16,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.weatherapp.R
 import com.example.weatherapp.common.Network
 import com.example.weatherapp.models.preferences.CityPreferences
-import com.example.weatherapp.models.preferences.MetricPreferences
+import com.example.weatherapp.models.preferences.AppPreferences
 import com.example.weatherapp.viewmodels.MainViewModel
 import com.example.weatherapp.viewmodels.factories.MainViewModelFactory
 import com.example.weatherapp.views.adapters.ViewPagerAdapter
@@ -26,7 +27,7 @@ import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var viewModel: MainViewModel
-    private lateinit var metricPreferences: MetricPreferences
+    private lateinit var appPreferences: AppPreferences
     private val metrics =
         arrayOf<String?>("Metryczna", "Imperialna", "Kelwiny dla temp. i m/s dla wiatru")
 
@@ -53,13 +54,13 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             return
         }
 
-        val metricsPreferences = MetricPreferences(this)
+        val metricsPreferences = AppPreferences(this)
         viewModel =
             ViewModelProvider(this, MainViewModelFactory(cityPreferences, metricsPreferences)).get(
                 MainViewModel::class.java
             )
 
-        metricPreferences = MetricPreferences(this)
+        appPreferences = AppPreferences(this)
 
         if (cityPreferences.cityList.isNotEmpty()) {
             viewModel.getCurrentWeatherAndPostValue(this)
@@ -75,16 +76,34 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         }
         setSpinner()
         setUpListeners()
+
+        viewModel.updateTime.observe(this) { updateTime ->
+            val updateInfoValue = findViewById<TextView>(R.id.updateInfoValue)
+            updateInfoValue.text = updateTime
+        }
+
+        val lastUpdateTime = appPreferences.lastUpdateTime
+        if (!lastUpdateTime.isNullOrEmpty()) {
+            val updateInfoValue = findViewById<TextView>(R.id.updateInfoValue)
+            updateInfoValue.text = lastUpdateTime
+        }
     }
 
     private fun setUpListeners() {
-//        val spinner = findViewById<Spinner>(R.id.metricSpinner)
-//        spinner.onItemSelectedListener = this
-
         val locationSettingsBtn = findViewById<Button>(R.id.locationSettingsBtn)
+        val refreshBtn = findViewById<Button>(R.id.refreshBtn)
 
         locationSettingsBtn.setOnClickListener {
             startActivity(Intent(this, LocationSettingsActivity::class.java))
+        }
+
+        refreshBtn.setOnClickListener {
+            if (!Network.isNetworkAvailable(this)) {
+                Toast.makeText(this, "Brak połączenia z internetem", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            viewModel.getCurrentWeatherAndPostValue(this)
+            viewModel.getForecastAndPostValue(this)
         }
     }
 
@@ -93,15 +112,22 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, metrics)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
-        val selectedMetric = metricPreferences.selectedMetric
+        val selectedMetric = appPreferences.selectedMetric
+
         val selectedIndex = metrics.indexOf(selectedMetric)
-        spinner.setSelection(selectedIndex)
+        spinner.onItemSelectedListener = null
+        spinner.setSelection(selectedIndex, false)
         spinner.onItemSelectedListener = this
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        if (!Network.isNetworkAvailable(this)) {
+            Toast.makeText(this, "Brak połączenia z internetem", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         val selectedMetric = metrics[position]
-        metricPreferences.selectedMetric = selectedMetric
+        appPreferences.selectedMetric = selectedMetric
         viewModel.getCurrentWeatherAndPostValue(this)
         viewModel.getForecastAndPostValue(this)
     }

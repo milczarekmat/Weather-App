@@ -16,17 +16,17 @@ import com.example.weatherapp.common.IconMap
 import com.example.weatherapp.common.Units
 import com.example.weatherapp.common.MetricsNames
 import com.example.weatherapp.models.forecast.ForecastModel
-import com.example.weatherapp.models.preferences.MetricPreferences
+import com.example.weatherapp.models.preferences.AppPreferences
 import com.example.weatherapp.viewmodels.MainViewModel
 import java.util.Calendar
 
 class ForecastFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
-    private lateinit var metricPreferences: MetricPreferences
+    private lateinit var appPreferences: AppPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        metricPreferences = MetricPreferences(requireContext())
+        appPreferences = AppPreferences(requireContext())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -91,7 +91,7 @@ class ForecastFragment : Fragment() {
 
     private fun updateForecast(weather: ForecastModel) {
         val temperatureUnit =
-            Units.getTemperatureUnit(MetricsNames.getMetricValue(metricPreferences.selectedMetric))
+            Units.getTemperatureUnit(MetricsNames.getMetricValue(appPreferences.selectedMetric))
         val currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
 
         val filteredForecast = weather.list.filter { listElement ->
@@ -137,5 +137,6 @@ class ForecastFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         viewModel.getForecastAndPostValue(requireContext())
+        viewModel.getCurrentWeatherAndPostValue(requireContext())
     }
 }

@@ -4,18 +4,18 @@ import android.util.Log
 import com.example.weatherapp.BuildConfig
 import com.example.weatherapp.common.MetricsNames
 import com.example.weatherapp.models.forecast.ForecastModel
-import com.example.weatherapp.models.preferences.MetricPreferences
+import com.example.weatherapp.models.preferences.AppPreferences
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.IOException
 
-class ForecastRepository(private val metricPreferences: MetricPreferences) {
+class ForecastRepository(private val appPreferences: AppPreferences) {
     private val client = OkHttpClient()
     private val gson = Gson()
 
     fun getCurrentForecast(city: String, callback: (ForecastModel?) -> Unit) {
-        val units = MetricsNames.getMetricValue(metricPreferences.selectedMetric)
+        val units = MetricsNames.getMetricValue(appPreferences.selectedMetric)
 
         val request = Request.Builder()
             .url("https://api.openweathermap.org/data/2.5/forecast?q=$city&appid=${BuildConfig.API_KEY}&lang=pl&units=$units")

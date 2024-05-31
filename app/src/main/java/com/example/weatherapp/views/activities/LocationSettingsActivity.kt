@@ -13,7 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.weatherapp.R
 import com.example.weatherapp.common.Network
 import com.example.weatherapp.models.preferences.CityPreferences
-import com.example.weatherapp.models.preferences.MetricPreferences
+import com.example.weatherapp.models.preferences.AppPreferences
 import com.example.weatherapp.repositories.WeatherRepository
 import com.example.weatherapp.viewmodels.MainViewModel
 import com.example.weatherapp.viewmodels.factories.MainViewModelFactory
@@ -35,7 +35,7 @@ class LocationSettingsActivity : AppCompatActivity() {
         cityPreferences = CityPreferences(this)
         cities = cityPreferences.cityList.toMutableList()
 
-        val metricsPreferences = MetricPreferences(this)
+        val metricsPreferences = AppPreferences(this)
         weatherRepository = WeatherRepository(metricsPreferences)
 
         viewModel = ViewModelProvider(

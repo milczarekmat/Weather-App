@@ -1,10 +1,6 @@
 package com.example.weatherapp.viewmodels
 
 import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,19 +8,28 @@ import com.example.weatherapp.common.Network.isNetworkAvailable
 import com.example.weatherapp.models.currentWeather.CurrentWeatherModel
 import com.example.weatherapp.models.forecast.ForecastModel
 import com.example.weatherapp.models.preferences.CityPreferences
-import com.example.weatherapp.models.preferences.MetricPreferences
+import com.example.weatherapp.models.preferences.AppPreferences
 import com.example.weatherapp.repositories.ForecastRepository
 import com.example.weatherapp.repositories.WeatherRepository
 import com.google.gson.Gson
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
+import java.util.TimeZone
 
-class MainViewModel(private val cityPreferences: CityPreferences, metricPreferences: MetricPreferences) : ViewModel() {
-    private val currentWeatherRepository = WeatherRepository(metricPreferences)
-    private val forecastRepository = ForecastRepository(metricPreferences)
+class MainViewModel(
+    private val cityPreferences: CityPreferences,
+    private val appPreferences: AppPreferences
+) : ViewModel() {
+    private val currentWeatherRepository = WeatherRepository(appPreferences)
+    private val forecastRepository = ForecastRepository(appPreferences)
 
     private val _currentWeather = MutableLiveData<CurrentWeatherModel?>()
     private val _forecast = MutableLiveData<ForecastModel?>()
+    val updateTime = MutableLiveData<String>()
     private val gson = Gson()
+
 
     val currentWeather: LiveData<CurrentWeatherModel?> get() = _currentWeather
     val forecast: LiveData<ForecastModel?> get() = _forecast
@@ -39,6 +44,8 @@ class MainViewModel(private val cityPreferences: CityPreferences, metricPreferen
                 val weatherJson = gson.toJson(weather)
 
                 file.writeText(weatherJson)
+
+                postUpdateTimeInformation()
             }
         } else {
             val file = File(context.filesDir, "weather_data")
@@ -61,6 +68,8 @@ class MainViewModel(private val cityPreferences: CityPreferences, metricPreferen
                 val forecastJson = gson.toJson(forecast)
 
                 file.writeText(forecastJson)
+
+                postUpdateTimeInformation()
             }
         } else {
             val file = File(context.filesDir, "forecast_data")
@@ -71,5 +80,18 @@ class MainViewModel(private val cityPreferences: CityPreferences, metricPreferen
                 _forecast.postValue(forecastModel)
             }
         }
+    }
+
+    private fun postUpdateTimeInformation() {
+        val current = Calendar.getInstance()
+        val timeZone = TimeZone.getTimeZone("Europe/Warsaw")
+        current.timeZone = timeZone
+
+        val formatter = SimpleDateFormat("HH:mm", Locale("pl", "PL"))
+        formatter.timeZone = timeZone
+        val formatted = formatter.format(current.time)
+        updateTime.postValue(formatted)
+
+        appPreferences.lastUpdateTime = formatted
     }
 }

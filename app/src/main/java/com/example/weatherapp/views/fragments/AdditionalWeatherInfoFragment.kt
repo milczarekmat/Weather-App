@@ -14,16 +14,16 @@ import com.example.weatherapp.common.DateConverter.convertUnixToTime
 import com.example.weatherapp.common.Units
 import com.example.weatherapp.common.MetricsNames
 import com.example.weatherapp.models.currentWeather.CurrentWeatherModel
-import com.example.weatherapp.models.preferences.MetricPreferences
+import com.example.weatherapp.models.preferences.AppPreferences
 import com.example.weatherapp.viewmodels.MainViewModel
 
 class AdditionalWeatherInfoFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
-    private lateinit var metricPreferences: MetricPreferences
+    private lateinit var appPreferences: AppPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        metricPreferences = MetricPreferences(requireContext())
+        appPreferences = AppPreferences(requireContext())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,8 +49,8 @@ class AdditionalWeatherInfoFragment : Fragment() {
     }
 
     private fun updateAdditionalInfoView(payload: CurrentWeatherModel) {
-        val temperatureUnit = Units.getTemperatureUnit(MetricsNames.getMetricValue(metricPreferences.selectedMetric))
-        val windUnit = Units.getWindSpeedUnit(MetricsNames.getMetricValue(metricPreferences.selectedMetric))
+        val temperatureUnit = Units.getTemperatureUnit(MetricsNames.getMetricValue(appPreferences.selectedMetric))
+        val windUnit = Units.getWindSpeedUnit(MetricsNames.getMetricValue(appPreferences.selectedMetric))
 
         view?.findViewById<TextView>(R.id.sunriseValueTV)?.text =
             convertUnixToTime(payload.sys.sunrise)
@@ -77,5 +77,6 @@ class AdditionalWeatherInfoFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         viewModel.getCurrentWeatherAndPostValue(requireContext())
+        viewModel.getForecastAndPostValue(requireContext())
     }
 }

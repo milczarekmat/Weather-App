@@ -136,6 +136,6 @@ class ForecastFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.getForecastAndPostValue()
+        viewModel.getForecastAndPostValue(requireContext())
     }
 }

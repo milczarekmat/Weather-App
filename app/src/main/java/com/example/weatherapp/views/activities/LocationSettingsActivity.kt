@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.weatherapp.R
+import com.example.weatherapp.common.Network
 import com.example.weatherapp.models.preferences.CityPreferences
 import com.example.weatherapp.models.preferences.MetricPreferences
 import com.example.weatherapp.repositories.WeatherRepository
@@ -50,6 +51,11 @@ class LocationSettingsActivity : AppCompatActivity() {
     }
 
     private fun searchCity(cityName: String) {
+        if (!Network.isNetworkAvailable(this)) {
+            Toast.makeText(this, "Brak połączenia z internetem", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         if(cities.contains(cityName.trim().lowercase().replaceFirstChar { it.uppercase() })){
             Toast.makeText(this, "Miasto już jest na liście", Toast.LENGTH_SHORT).show()
             return

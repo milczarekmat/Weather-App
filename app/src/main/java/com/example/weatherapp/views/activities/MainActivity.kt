@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.weatherapp.R
+import com.example.weatherapp.common.Network
 import com.example.weatherapp.models.preferences.CityPreferences
 import com.example.weatherapp.models.preferences.MetricPreferences
 import com.example.weatherapp.viewmodels.MainViewModel
@@ -21,6 +22,7 @@ import com.example.weatherapp.views.adapters.ViewPagerAdapter
 import com.example.weatherapp.views.fragments.AdditionalWeatherInfoFragment
 import com.example.weatherapp.views.fragments.CurrentWeatherFragment
 import com.example.weatherapp.views.fragments.ForecastFragment
+import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var viewModel: MainViewModel
@@ -60,10 +62,17 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         metricPreferences = MetricPreferences(this)
 
         if (cityPreferences.cityList.isNotEmpty()) {
-            viewModel.getCurrentWeatherAndPostValue()
-            viewModel.getForecastAndPostValue()
+            viewModel.getCurrentWeatherAndPostValue(this)
+            viewModel.getForecastAndPostValue(this)
         }
 
+        if (!Network.isNetworkAvailable(this)) {
+            Snackbar.make(
+                findViewById(android.R.id.content),
+                "Dane mogą być nieaktualne, do aktualizacji wymagane jest połączenie internetowe.",
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
         setSpinner()
         setUpListeners()
     }
@@ -93,8 +102,8 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         val selectedMetric = metrics[position]
         metricPreferences.selectedMetric = selectedMetric
-        viewModel.getCurrentWeatherAndPostValue()
-        viewModel.getForecastAndPostValue()
+        viewModel.getCurrentWeatherAndPostValue(this)
+        viewModel.getForecastAndPostValue(this)
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {

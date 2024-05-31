@@ -74,6 +74,6 @@ class CurrentWeatherFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.getCurrentWeatherAndPostValue()
+        viewModel.getCurrentWeatherAndPostValue(requireContext())
     }
 }

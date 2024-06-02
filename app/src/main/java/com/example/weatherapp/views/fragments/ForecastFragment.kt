@@ -29,8 +29,8 @@ class ForecastFragment : Fragment() {
         appPreferences = AppPreferences(requireContext())
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onStart() {
+        super.onStart()
         viewModel = requireActivity().viewModels<MainViewModel>().value
 
         viewModel.forecast.observe(viewLifecycleOwner, Observer { currentForecast ->

@@ -1,10 +1,11 @@
 package com.example.weatherapp.models.forecast
 
 import com.example.weatherapp.models.forecast.dependencies.ForecastDetails
+import com.google.gson.annotations.Expose
 
 data class ForecastModel(
-    val cod: String,
-    val cnt: Int,
-    val message: Int,
-    val list: List<ForecastDetails>,
+    @Expose val cod: String,
+    @Expose val cnt: Int,
+    @Expose val message: Int,
+    @Expose val list: List<ForecastDetails>,
 )

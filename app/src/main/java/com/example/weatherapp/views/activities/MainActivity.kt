@@ -43,8 +43,11 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         )
 
         val adapter = ViewPagerAdapter(fragmentList, supportFragmentManager, lifecycle)
+
         val viewPager = findViewById<ViewPager2>(R.id.mainVP)
-        viewPager.adapter = adapter
+        viewPager?.let {
+            it.adapter = adapter
+        }
 
         val cityPreferences = CityPreferences(this)
 

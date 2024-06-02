@@ -11,6 +11,7 @@ import com.example.weatherapp.models.preferences.CityPreferences
 import com.example.weatherapp.repositories.ForecastRepository
 import com.example.weatherapp.repositories.WeatherRepository
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -25,7 +26,7 @@ class MainViewModel(
     val currentWeather = MutableLiveData<CurrentWeatherModel?>()
     val forecast = MutableLiveData<ForecastModel?>()
     val updateTime = MutableLiveData<String>()
-    private val gson = Gson()
+    private val gson = GsonBuilder().excludeFieldsWithoutExposeAnnotation().create()
 
     fun updateWeatherData() {
         val newCurrentWeather = WeatherRepository.getCurrentWeather()

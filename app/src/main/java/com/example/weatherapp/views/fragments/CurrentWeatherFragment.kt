@@ -9,30 +9,33 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.example.weatherapp.R
 import com.example.weatherapp.common.IconMap
-import com.example.weatherapp.common.Units
 import com.example.weatherapp.common.MetricsNames
+import com.example.weatherapp.common.Units
 import com.example.weatherapp.models.currentWeather.CurrentWeatherModel
 import com.example.weatherapp.models.preferences.AppPreferences
+import com.example.weatherapp.models.preferences.CityPreferences
 import com.example.weatherapp.viewmodels.MainViewModel
 
 class CurrentWeatherFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
     private lateinit var appPreferences: AppPreferences
+    private lateinit var cityPreferences: CityPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         appPreferences = AppPreferences(requireContext())
+        cityPreferences = CityPreferences(requireContext())
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel = requireActivity().viewModels<MainViewModel>().value
-        viewModel.currentWeather.observe(viewLifecycleOwner, Observer { currentWeather ->
+    override fun onStart() {
+        super.onStart()
 
+        viewModel = requireActivity().viewModels<MainViewModel>().value
+
+        viewModel.currentWeather.observe(viewLifecycleOwner, Observer { currentWeather ->
             if (currentWeather == null) {
                 Log.i("CurrentWeatherFragment", "Weather is null")
                 return@Observer
@@ -50,7 +53,8 @@ class CurrentWeatherFragment : Fragment() {
     }
 
     private fun updateWeatherView(weather: CurrentWeatherModel) {
-        val temperatureUnit = Units.getTemperatureUnit(MetricsNames.getMetricValue(appPreferences.selectedMetric))
+        val temperatureUnit =
+            Units.getTemperatureUnit(MetricsNames.getMetricValue(appPreferences.selectedMetric))
 
         view?.findViewById<TextView>(R.id.titleTV)?.text = weather.name
         view?.findViewById<TextView>(R.id.subtitleTV)?.text = weather.weather[0].description

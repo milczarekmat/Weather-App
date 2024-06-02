@@ -59,13 +59,13 @@
             <Space
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.05"/>
+                android:layout_weight="0.1"/>
 
             <TextView
                 android:id="@+id/todayTv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.2"
+                android:layout_weight="0.24"
                 android:text="Dzisiaj" />
 
             <ImageView
@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:layout_weight="0.1"
+                android:layout_weight="0.15"
                 android:src="@drawable/i01d" />
 
             <ImageView
@@ -83,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:layout_weight="0.1"
+                android:layout_weight="0.15"
                 android:src="@drawable/i01d" />
 
             <TextView
@@ -104,7 +104,7 @@
             <Space
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.04"/>
+                android:layout_weight="0.1"/>
         </LinearLayout>
 
         <LinearLayout
@@ -117,13 +117,13 @@
             <Space
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.05"/>
+                android:layout_weight="0.1"/>
 
             <TextView
                 android:id="@+id/firstDayTv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.2"
+                android:layout_weight="0.24"
                 android:text="TextView" />
 
             <ImageView
@@ -132,7 +132,7 @@
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:layout_weight="0.1"
+                android:layout_weight="0.15"
                 android:src="@drawable/i01d" />
 
             <ImageView
@@ -141,7 +141,7 @@
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:layout_weight="0.1"
+                android:layout_weight="0.15"
                 android:src="@drawable/i01d" />
 
             <TextView
@@ -162,7 +162,7 @@
             <Space
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.04"/>
+                android:layout_weight="0.1"/>
         </LinearLayout>
 
         <LinearLayout
@@ -175,13 +175,13 @@
             <Space
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.05"/>
+                android:layout_weight="0.1"/>
 
             <TextView
                 android:id="@+id/secondDayTv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.2"
+                android:layout_weight="0.24"
                 android:text="TextView" />
 
             <ImageView
@@ -190,7 +190,7 @@
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:layout_weight="0.1"
+                android:layout_weight="0.15"
                 android:src="@drawable/i01d" />
 
             <ImageView
@@ -199,7 +199,7 @@
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:layout_weight="0.1"
+                android:layout_weight="0.15"
                 android:src="@drawable/i01d" />
 
             <TextView
@@ -220,7 +220,7 @@
             <Space
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.04"/>
+                android:layout_weight="0.1"/>
         </LinearLayout>
 
         <LinearLayout
@@ -233,13 +233,13 @@
             <Space
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.05"/>
+                android:layout_weight="0.1"/>
 
             <TextView
                 android:id="@+id/thirdDayTv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.2"
+                android:layout_weight="0.24"
                 android:text="TextView" />
 
             <ImageView
@@ -248,7 +248,7 @@
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:layout_weight="0.1"
+                android:layout_weight="0.15"
                 android:src="@drawable/i01d" />
 
             <ImageView
@@ -257,7 +257,7 @@
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:layout_weight="0.1"
+                android:layout_weight="0.15"
                 android:src="@drawable/i01d" />
 
             <TextView
@@ -278,7 +278,7 @@
             <Space
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.04"/>
+                android:layout_weight="0.1"/>
         </LinearLayout>
 
         <LinearLayout
@@ -291,13 +291,13 @@
             <Space
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.05"/>
+                android:layout_weight="0.1"/>
 
             <TextView
                 android:id="@+id/fourthDayTv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.2"
+                android:layout_weight="0.24"
                 android:text="TextView" />
 
             <ImageView
@@ -306,7 +306,7 @@
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:layout_weight="0.1"
+                android:layout_weight="0.15"
                 android:src="@drawable/i01d" />
 
             <ImageView
@@ -315,7 +315,7 @@
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:layout_weight="0.1"
+                android:layout_weight="0.15"
                 android:src="@drawable/i01d" />
 
             <TextView
@@ -336,7 +336,7 @@
             <Space
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.04"/>
+                android:layout_weight="0.1"/>
         </LinearLayout>
 
         <Space

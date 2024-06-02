@@ -49,7 +49,6 @@ class CityAdapter(
             }
             selectedPosition = position
             cityPreferences.selectedCity = position
-            Log.i("CityAdapter", "Selected city updated to ${cityPreferences.cityList[position]}")
 
             viewModel.getCurrentWeather(context)
             viewModel.getForecast(context)

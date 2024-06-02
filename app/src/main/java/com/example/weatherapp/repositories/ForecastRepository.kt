@@ -16,12 +16,9 @@ object ForecastRepository {
     private val client = OkHttpClient()
     private val gson = Gson()
 
-    private var currentForecast: MutableLiveData<ForecastModel?>? = null
+    private var currentForecast: MutableLiveData<ForecastModel?>? = MutableLiveData<ForecastModel?>()
 
     fun getCurrentForecast(): ForecastModel?{
-        if (currentForecast == null) {
-            currentForecast = MutableLiveData<ForecastModel?>()
-        }
         return currentForecast!!.value
     }
 
@@ -42,7 +39,7 @@ object ForecastRepository {
                 if (response.isSuccessful) {
                     response.body?.let {
                         val json = it.string()
-                        val forecast = ForecastRepository.gson.fromJson(json, ForecastModel::class.java)
+                        val forecast = gson.fromJson(json, ForecastModel::class.java)
                         currentForecast?.postValue(forecast)
                         callback(forecast)
                     }

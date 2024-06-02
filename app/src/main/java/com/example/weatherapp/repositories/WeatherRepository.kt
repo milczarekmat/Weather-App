@@ -15,12 +15,9 @@ object WeatherRepository {
     private val client = OkHttpClient()
     private val gson = Gson()
 
-    private var currentWeather: MutableLiveData<CurrentWeatherModel?>? = null
+    private var currentWeather: MutableLiveData<CurrentWeatherModel?>? = MutableLiveData<CurrentWeatherModel?>()
 
     fun getCurrentWeather(): CurrentWeatherModel?{
-        if (currentWeather == null) {
-            currentWeather = MutableLiveData<CurrentWeatherModel?>()
-        }
         return currentWeather!!.value
     }
 

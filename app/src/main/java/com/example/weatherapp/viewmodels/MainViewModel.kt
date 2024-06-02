@@ -1,8 +1,6 @@
 package com.example.weatherapp.viewmodels
 
 import android.content.Context
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.weatherapp.common.Network.isNetworkAvailable
@@ -38,7 +36,11 @@ class MainViewModel(
     }
 
     fun updateForecastData() {
-        forecast.postValue(ForecastRepository.getCurrentForecast())
+        val newCurrentForecast = ForecastRepository.getCurrentForecast()
+        if (newCurrentForecast != forecast.value) {
+            forecast.postValue(newCurrentForecast)
+            postUpdateTimeInformation()
+        }
     }
 
     fun getCurrentWeatherAndPostValue(context: Context) {
@@ -51,7 +53,7 @@ class MainViewModel(
                     file.writeText(weatherJson)
                     postUpdateTimeInformation()
 
-                    updateWeatherData()
+                    currentWeather.postValue(weather)
                 }
             }
         } else {
@@ -97,7 +99,7 @@ class MainViewModel(
                 file.writeText(forecastJson)
                 postUpdateTimeInformation()
 
-                updateForecastData()
+                forecast.postValue(newForecast)
             }
         } else {
             val file = File(context.filesDir, "forecast_data")

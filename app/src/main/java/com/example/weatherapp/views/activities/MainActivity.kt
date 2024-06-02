@@ -133,9 +133,12 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         }
 
         val selectedMetric = metrics[position]
-        appPreferences.selectedMetric = selectedMetric
-        viewModel.getCurrentWeatherAndPostValue(this)
-        viewModel.getForecastAndPostValue(this)
+
+        if (selectedMetric != appPreferences.selectedMetric) {
+            appPreferences.selectedMetric = selectedMetric
+            viewModel.getCurrentWeatherAndPostValue(this)
+            viewModel.getForecastAndPostValue(this)
+        }
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {

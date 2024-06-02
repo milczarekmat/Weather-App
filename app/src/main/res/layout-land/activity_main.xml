@@ -25,7 +25,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.4"
             android:maxLines="1"
-            android:layout_gravity="center_vertical"
             android:text="Lokalizacja"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -33,7 +32,7 @@
         <Space
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.1" />
+            android:layout_weight="0.2" />
 
         <Spinner
             android:id="@+id/metricSpinner"
@@ -41,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="1dp"
-            android:layout_weight="0.5"
+            android:layout_weight="0.4"
             android:popupBackground="#000"
             app:layout_constraintStart_toEndOf="@+id/button"
             app:layout_constraintTop_toTopOf="parent" />
@@ -60,14 +59,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.06" />
+        app:layout_constraintGuide_percent="0.03" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline5"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.89" />
+        app:layout_constraintGuide_percent="0.87" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/mainVP"

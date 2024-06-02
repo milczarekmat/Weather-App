@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.example.weatherapp.R
 import com.example.weatherapp.common.IconMap
@@ -30,7 +31,6 @@ class CurrentWeatherFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = requireActivity().viewModels<MainViewModel>().value
-
         viewModel.currentWeather.observe(viewLifecycleOwner, Observer { currentWeather ->
 
             if (currentWeather == null) {
@@ -74,7 +74,7 @@ class CurrentWeatherFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.getCurrentWeatherAndPostValue(requireContext())
-        viewModel.getForecastAndPostValue(requireContext())
+
+        viewModel.updateWeatherData()
     }
 }

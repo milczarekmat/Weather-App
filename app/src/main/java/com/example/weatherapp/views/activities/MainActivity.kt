@@ -62,10 +62,10 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
         appPreferences = AppPreferences(this)
 
-        if (cityPreferences.cityList.isNotEmpty()) {
-            viewModel.getCurrentWeatherAndPostValue(this)
-            viewModel.getForecastAndPostValue(this)
-        }
+        viewModel.getCurrentWeatherAndPostValue(this)
+        viewModel.getForecastAndPostValue(this)
+        viewModel.updateForecastData()
+
 
         if (!Network.isNetworkAvailable(this)) {
             Snackbar.make(
@@ -98,13 +98,19 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         }
 
         refreshBtn.setOnClickListener {
-            if (!Network.isNetworkAvailable(this)) {
-                Toast.makeText(this, "Brak połączenia z internetem", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-            viewModel.getCurrentWeatherAndPostValue(this)
-            viewModel.getForecastAndPostValue(this)
+            refreshAction()
         }
+    }
+
+    private fun refreshAction() {
+        if (!Network.isNetworkAvailable(this)) {
+            Toast.makeText(this, "Brak połączenia z internetem", Toast.LENGTH_SHORT).show()
+            return
+        }
+        viewModel.getCurrentWeatherAndPostValue(this)
+        viewModel.getForecastAndPostValue(this)
+
+        Toast.makeText(this, "Zaktualizowano dane", Toast.LENGTH_SHORT).show()
     }
 
     private fun setSpinner() {

@@ -136,7 +136,7 @@ class ForecastFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.getForecastAndPostValue(requireContext())
-        viewModel.getCurrentWeatherAndPostValue(requireContext())
+
+        viewModel.updateForecastData()
     }
 }

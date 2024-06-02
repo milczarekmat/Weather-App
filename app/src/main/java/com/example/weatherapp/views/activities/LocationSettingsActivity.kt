@@ -12,8 +12,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.weatherapp.R
 import com.example.weatherapp.common.Network
-import com.example.weatherapp.models.preferences.CityPreferences
 import com.example.weatherapp.models.preferences.AppPreferences
+import com.example.weatherapp.models.preferences.CityPreferences
 import com.example.weatherapp.repositories.WeatherRepository
 import com.example.weatherapp.viewmodels.MainViewModel
 import com.example.weatherapp.viewmodels.factories.MainViewModelFactory
@@ -22,8 +22,8 @@ import kotlinx.coroutines.launch
 
 class LocationSettingsActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
-    private lateinit var weatherRepository: WeatherRepository
     private lateinit var cityPreferences: CityPreferences
+    private lateinit var appPreferences: AppPreferences
     private lateinit var cities: MutableList<String>
     private lateinit var adapter: CityAdapter
 
@@ -35,14 +35,13 @@ class LocationSettingsActivity : AppCompatActivity() {
         cityPreferences = CityPreferences(this)
         cities = cityPreferences.cityList.toMutableList()
 
-        val metricsPreferences = AppPreferences(this)
-        weatherRepository = WeatherRepository(metricsPreferences)
+        appPreferences = AppPreferences(this)
 
         viewModel = ViewModelProvider(
             this,
-            MainViewModelFactory(cityPreferences, metricsPreferences)
+            MainViewModelFactory(cityPreferences, appPreferences)
         ).get(MainViewModel::class.java)
-        adapter = CityAdapter(this, cities)
+        adapter = CityAdapter(this, cities, viewModel)
 
         setUpListeners()
 
@@ -56,12 +55,12 @@ class LocationSettingsActivity : AppCompatActivity() {
             return
         }
 
-        if(cities.contains(cityName.trim().lowercase().replaceFirstChar { it.uppercase() })){
+        if (cities.contains(cityName.trim().lowercase().replaceFirstChar { it.uppercase() })) {
             Toast.makeText(this, "Miasto już jest na liście", Toast.LENGTH_SHORT).show()
             return
         }
 
-        weatherRepository.fetchCurrentWeather(cityName) { weather ->
+        WeatherRepository.fetchCurrentWeather(appPreferences, cityName) { weather ->
             runOnUiThread {
                 if (weather != null) {
                     addCity(cityName)
@@ -91,7 +90,8 @@ class LocationSettingsActivity : AppCompatActivity() {
 
         backBtn.setOnClickListener {
             if (cityPreferences.cityList.isEmpty()) {
-                Toast.makeText(this, "Musisz dodać przynajmniej jedno miasto", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Musisz dodać przynajmniej jedno miasto", Toast.LENGTH_SHORT)
+                    .show()
             } else {
                 finish()
             }

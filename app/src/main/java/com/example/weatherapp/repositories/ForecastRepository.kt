@@ -1,8 +1,10 @@
 package com.example.weatherapp.repositories
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.example.weatherapp.BuildConfig
 import com.example.weatherapp.common.MetricsNames
+import com.example.weatherapp.models.currentWeather.CurrentWeatherModel
 import com.example.weatherapp.models.forecast.ForecastModel
 import com.example.weatherapp.models.preferences.AppPreferences
 import com.google.gson.Gson
@@ -10,11 +12,21 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.IOException
 
-class ForecastRepository(private val appPreferences: AppPreferences) {
+object ForecastRepository {
     private val client = OkHttpClient()
     private val gson = Gson()
 
-    fun getCurrentForecast(city: String, callback: (ForecastModel?) -> Unit) {
+    private var currentForecast: MutableLiveData<ForecastModel?>? = null
+
+    fun getCurrentForecast(): ForecastModel?{
+        if (currentForecast == null) {
+            currentForecast = MutableLiveData<ForecastModel?>()
+        }
+        return currentForecast!!.value
+    }
+
+
+    fun fetchCurrentForecast(appPreferences: AppPreferences, city: String, callback: (ForecastModel?) -> Unit) {
         val units = MetricsNames.getMetricValue(appPreferences.selectedMetric)
 
         val request = Request.Builder()
@@ -23,22 +35,19 @@ class ForecastRepository(private val appPreferences: AppPreferences) {
 
         client.newCall(request).enqueue(object : okhttp3.Callback {
             override fun onFailure(call: okhttp3.Call, e: IOException) {
-                Log.e("ForecastRepository", "getCurrentForecast onFailure: ${e.message}")
-                callback(null)
+                Log.e("ForecastRepository", "getCurrentWeather onFailure: ${e.message}")
             }
 
             override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
                 if (response.isSuccessful) {
                     response.body?.let {
                         val json = it.string()
-                        val weather = gson.fromJson(json, ForecastModel::class.java)
-                        callback(weather)
+                        val forecast = ForecastRepository.gson.fromJson(json, ForecastModel::class.java)
+                        currentForecast?.postValue(forecast)
+                        callback(forecast)
                     }
                 } else {
-                    Log.i(
-                        "ForecastRepository",
-                        "getCurrentForecast onResponse: ${response.message}"
-                    )
+                    Log.i("ForecastRepository", "getCurrentWeather onResponse: ${response.message}")
                     callback(null)
                 }
             }

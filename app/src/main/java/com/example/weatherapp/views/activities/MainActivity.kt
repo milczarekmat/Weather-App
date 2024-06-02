@@ -2,6 +2,8 @@ package com.example.weatherapp.views.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -31,10 +33,33 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private val metrics =
         arrayOf<String?>("Metryczna", "Imperialna", "Kelwiny dla temp. i m/s dla wiatru")
 
+    private val handler = Handler(Looper.getMainLooper())
+    private val refreshRunnable = object : Runnable {
+        override fun run() {
+            if (!Network.isNetworkAvailable(this@MainActivity)) {
+                return
+            }
+            viewModel.getCurrentWeatherAndPostValue(this@MainActivity)
+            viewModel.getForecastAndPostValue(this@MainActivity)
+            Toast.makeText(
+                this@MainActivity,
+                "Automatycznie zaktualizowano dane",
+                Toast.LENGTH_SHORT
+            ).show()
+            handler.postDelayed(this, 5000) // 60000 ms = 1 minuta
+        }
+    }
+
+    private fun restartTimer() {
+        handler.removeCallbacks(refreshRunnable)
+        handler.post(refreshRunnable)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
+        handler.post(refreshRunnable)
 
         val fragmentList = arrayListOf(
             CurrentWeatherFragment(),
@@ -74,7 +99,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             Snackbar.make(
                 findViewById(android.R.id.content),
                 "Dane mogą być nieaktualne, do aktualizacji wymagane jest połączenie internetowe.",
-                Snackbar.LENGTH_LONG
+                Snackbar.LENGTH_SHORT
             ).show()
         }
         setSpinner()
@@ -113,6 +138,8 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         viewModel.getCurrentWeatherAndPostValue(this)
         viewModel.getForecastAndPostValue(this)
 
+        restartTimer()
+
         Toast.makeText(this, "Zaktualizowano dane", Toast.LENGTH_SHORT).show()
     }
 
@@ -141,10 +168,16 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             appPreferences.selectedMetric = selectedMetric
             viewModel.getCurrentWeatherAndPostValue(this)
             viewModel.getForecastAndPostValue(this)
+            restartTimer()
         }
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
         Toast.makeText(this, "Nie wybrano żadnej opcji", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeCallbacks(refreshRunnable)
     }
 }

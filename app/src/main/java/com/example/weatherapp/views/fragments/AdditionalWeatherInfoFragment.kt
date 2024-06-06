@@ -53,10 +53,9 @@ class AdditionalWeatherInfoFragment : Fragment() {
         val windUnit = Units.getWindSpeedUnit(MetricsNames.getMetricValue(appPreferences.selectedMetric))
 
         view?.findViewById<TextView>(R.id.sunriseValueTV)?.text =
-            convertUnixToTime(payload.sys.sunrise)
-        view?.findViewById<TextView>(R.id.sunsetValueTV)?.text =
-            convertUnixToTime(payload.sys.sunset )
-//        + payload.timezone
+            convertUnixToTime(payload.sys.sunrise + payload.timezone )
+        view?.findViewById<TextView>(R.id.sunsetValueTV )?.text =
+            convertUnixToTime(payload.sys.sunset + payload.timezone)
 
         view?.findViewById<TextView>(R.id.visibilityValueTV)?.text =
             payload.visibility.toString() + "m"

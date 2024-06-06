@@ -32,8 +32,10 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var appPreferences: AppPreferences
     private val metrics =
         arrayOf<String?>("Metryczna", "Imperialna", "Kelwiny dla temp. i m/s dla wiatru")
+    private val delay = 60000 * 2L
 
     private val handler = Handler(Looper.getMainLooper())
+
     private val refreshRunnable = object : Runnable {
         override fun run() {
             if (!Network.isNetworkAvailable(this@MainActivity)) {
@@ -46,20 +48,20 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 "Automatycznie zaktualizowano dane",
                 Toast.LENGTH_SHORT
             ).show()
-            handler.postDelayed(this, 5000) // 60000 ms = 1 minuta
+            handler.postDelayed(this, delay)
         }
     }
 
     private fun restartTimer() {
         handler.removeCallbacks(refreshRunnable)
-        handler.post(refreshRunnable)
+        handler.postDelayed(refreshRunnable, delay)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        handler.post(refreshRunnable)
+        handler.postDelayed(refreshRunnable, delay)
 
         val fragmentList = arrayListOf(
             CurrentWeatherFragment(),

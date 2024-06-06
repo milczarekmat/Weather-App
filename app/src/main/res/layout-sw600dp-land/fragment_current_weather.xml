@@ -86,7 +86,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="25dp"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -96,15 +96,14 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="0.3">
 
             <TextView
                 android:id="@+id/perceptibleTemperatureTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
                 android:text="Odczuwalna temperatura"
                 android:textSize="@dimen/text_size_land"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -118,7 +117,6 @@
                 android:id="@+id/visibiltyIV"
                 android:layout_width="@dimen/text_size_land"
                 android:layout_height="@dimen/text_size_land"
-                android:layout_marginTop="60dp"
                 android:layout_marginEnd="5dp"
                 android:src="@drawable/head_24"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -141,15 +139,14 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="0.3">
 
             <TextView
                 android:id="@+id/pressureTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
                 android:text="Ciśnienie"
                 android:textSize="@dimen/text_size_land"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -163,7 +160,6 @@
                 android:id="@+id/pressureIV"
                 android:layout_width="@dimen/text_size_land"
                 android:layout_height="@dimen/text_size_land"
-                android:layout_marginTop="60dp"
                 android:layout_marginEnd="5dp"
                 android:src="@drawable/pressure_24"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -187,15 +183,14 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="0.3">
 
             <TextView
                 android:id="@+id/coordinatesTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
                 android:text="Współrzędne geograficzne"
                 android:textSize="@dimen/text_size_land"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -209,7 +204,6 @@
                 android:id="@+id/coordinatesIV"
                 android:layout_width="@dimen/text_size_land"
                 android:layout_height="@dimen/text_size_land"
-                android:layout_marginTop="60dp"
                 android:layout_marginEnd="5dp"
                 android:src="@drawable/pin_drop_24"
                 app:layout_constraintBottom_toBottomOf="parent"

@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
         viewModel.getCurrentWeatherAndPostValue(this)
         viewModel.getForecastAndPostValue(this)
-        viewModel.updateForecastData()
+        viewModel.updateForecastData(this)
 
 
         if (!Network.isNetworkAvailable(this)) {

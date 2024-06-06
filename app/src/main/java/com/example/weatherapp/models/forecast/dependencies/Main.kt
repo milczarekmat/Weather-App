@@ -1,13 +1,15 @@
 package com.example.weatherapp.models.forecast.dependencies
 
+import com.google.gson.annotations.Expose
+
 data class Main(
-    val feels_like: Double,
-    val grnd_level: Int,
-    val humidity: Int,
-    val pressure: Int,
-    val sea_level: Int,
-    val temp: Double,
-    val temp_kf: Double,
-    val temp_max: Double,
-    val temp_min: Double
+    @Expose val feels_like: Double,
+    @Expose val grnd_level: Int,
+    @Expose val humidity: Int,
+    @Expose val pressure: Int,
+    @Expose val sea_level: Int,
+    @Expose val temp: Double,
+    @Expose val temp_kf: Double,
+    @Expose val temp_max: Double,
+    @Expose val temp_min: Double
 )

@@ -1,14 +1,17 @@
 package com.example.weatherapp.repositories
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.weatherapp.BuildConfig
 import com.example.weatherapp.common.MetricsNames
+import com.example.weatherapp.common.Network
 import com.example.weatherapp.models.currentWeather.CurrentWeatherModel
 import com.example.weatherapp.models.preferences.AppPreferences
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import java.io.File
 import java.io.IOException
 
 object WeatherRepository {
@@ -17,7 +20,15 @@ object WeatherRepository {
 
     private var currentWeather: MutableLiveData<CurrentWeatherModel?>? = MutableLiveData<CurrentWeatherModel?>()
 
-    fun getCurrentWeather(): CurrentWeatherModel?{
+    fun getCurrentWeather(context: Context): CurrentWeatherModel?{
+        if (!Network.isNetworkAvailable(context)) {
+            val file = File(context.filesDir, "weather_data")
+            if (file.exists()) {
+                val weatherData = file.readText()
+
+                return gson.fromJson(weatherData, CurrentWeatherModel::class.java)
+            }
+        }
         return currentWeather!!.value
     }
 

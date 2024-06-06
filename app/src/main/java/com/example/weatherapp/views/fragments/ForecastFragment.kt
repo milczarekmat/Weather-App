@@ -36,7 +36,7 @@ class ForecastFragment : Fragment() {
         viewModel.forecast.observe(viewLifecycleOwner, Observer { currentForecast ->
 
             if (currentForecast == null) {
-                Log.i("ForecastFragment", "Weather is null")
+                Log.i("ForecastFragment", "Forecast is null")
                 return@Observer
             }
 
@@ -137,6 +137,6 @@ class ForecastFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        viewModel.updateForecastData()
+        viewModel.updateForecastData(requireContext())
     }
 }

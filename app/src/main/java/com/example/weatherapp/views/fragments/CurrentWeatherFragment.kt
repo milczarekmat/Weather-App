@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import com.example.weatherapp.R
 import com.example.weatherapp.common.IconMap
 import com.example.weatherapp.common.MetricsNames
+import com.example.weatherapp.common.Network
 import com.example.weatherapp.common.Units
 import com.example.weatherapp.models.currentWeather.CurrentWeatherModel
 import com.example.weatherapp.models.preferences.AppPreferences
@@ -41,7 +42,7 @@ class CurrentWeatherFragment : Fragment() {
                 return@Observer
             }
 
-            updateWeatherView(currentWeather)
+                updateWeatherView(currentWeather)
         })
     }
 
@@ -53,6 +54,7 @@ class CurrentWeatherFragment : Fragment() {
     }
 
     private fun updateWeatherView(weather: CurrentWeatherModel) {
+
         val temperatureUnit =
             Units.getTemperatureUnit(MetricsNames.getMetricValue(appPreferences.selectedMetric))
 
@@ -79,6 +81,6 @@ class CurrentWeatherFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        viewModel.updateWeatherData()
+        viewModel.updateWeatherData(requireContext())
     }
 }

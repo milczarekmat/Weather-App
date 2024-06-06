@@ -76,6 +76,6 @@ class AdditionalWeatherInfoFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        viewModel.updateWeatherData()
+        viewModel.updateWeatherData(requireContext())
     }
 }

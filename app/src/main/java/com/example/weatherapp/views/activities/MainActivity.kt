@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         }
     }
 
-    private fun restartTimer() {
+    private fun restartThread() {
         handler.removeCallbacks(refreshRunnable)
         handler.postDelayed(refreshRunnable, delay)
     }
@@ -61,7 +61,6 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        handler.postDelayed(refreshRunnable, delay)
 
         val fragmentList = arrayListOf(
             CurrentWeatherFragment(),
@@ -119,6 +118,12 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+
+        handler.postDelayed(refreshRunnable, delay)
+    }
+
     private fun setUpListeners() {
         val locationSettingsBtn = findViewById<Button>(R.id.locationSettingsBtn)
         val refreshBtn = findViewById<Button>(R.id.refreshBtn)
@@ -140,7 +145,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         viewModel.getCurrentWeatherAndPostValue(this)
         viewModel.getForecastAndPostValue(this)
 
-        restartTimer()
+        restartThread()
 
         Toast.makeText(this, "Zaktualizowano dane", Toast.LENGTH_SHORT).show()
     }
@@ -170,7 +175,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             appPreferences.selectedMetric = selectedMetric
             viewModel.getCurrentWeatherAndPostValue(this)
             viewModel.getForecastAndPostValue(this)
-            restartTimer()
+            restartThread()
         }
     }
 
@@ -178,8 +183,8 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         Toast.makeText(this, "Nie wybrano żadnej opcji", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onStop() {
+        super.onStop()
         handler.removeCallbacks(refreshRunnable)
     }
 }

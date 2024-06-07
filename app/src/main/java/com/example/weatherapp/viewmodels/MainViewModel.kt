@@ -33,15 +33,13 @@ class MainViewModel(
         val newCurrentWeather = WeatherRepository.getCurrentWeather(context)
         if (newCurrentWeather != currentWeather.value) {
             currentWeather.postValue(newCurrentWeather)
-            postUpdateTimeInformation()
         }
     }
 
     fun updateForecastData(context: Context) {
         val newCurrentForecast = ForecastRepository.getCurrentForecast(context)
-        if (newCurrentForecast != forecast.value && newCurrentForecast != null) {
+        if (newCurrentForecast != forecast.value) {
             forecast.postValue(newCurrentForecast)
-            postUpdateTimeInformation()
         }
     }
 
